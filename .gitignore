@@ -11,3 +11,16 @@ cypress/screenshots/
 *.log
 
 .DS_Store
+
+# Capacitor native platforms (generated, don't commit)
+android/
+ios/
+
+# Build outputs
+*.apk
+*.ipa
+*.aab
+
+# Environment
+.env.local
+.env.*.local

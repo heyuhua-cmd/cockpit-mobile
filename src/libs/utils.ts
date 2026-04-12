@@ -153,6 +153,60 @@ export const isElectron = (): boolean => {
 }
 
 /**
+ * Detects if the application is running inside a Capacitor (mobile) container
+ * @returns {boolean} True if running in Capacitor, false otherwise
+ */
+export const isCapacitor = (): boolean => {
+  // @ts-expect-error Capacitor is injected at runtime on mobile
+  return typeof window !== 'undefined' && !!(window as any).Capacitor?.isNativePlatform?.()
+}
+
+/**
+ * Detects if running in a native mobile app environment (Capacitor or similar)
+ * @returns {boolean} True if running in a native mobile container, false otherwise
+ */
+export const isMobileApp = (): boolean => {
+  // Check for common native web view indicators
+  if (typeof navigator === 'object' && typeof navigator.userAgent === 'string') {
+    const ua = navigator.userAgent.toLowerCase()
+    // Capacitor WebView indicators
+    if (ua.includes('capacitor')) return true
+    // Cordova/PhoneGap indicators
+    if (ua.includes('cordova') || ua.includes('phonegap')) return true
+    // Android WebView
+    if (ua.includes('wv') || ua.includes('version/') && ua.includes('android')) {
+      // Additional check to distinguish from Chrome browser
+      // Native WebViews typically have specific patterns
+      if (!ua.includes('chrome') && !ua.includes('edg')) return true
+    }
+    // iOS WKWebView
+    if (ua.includes('iphone') || ua.includes('ipad')) {
+      // iOS native apps often have these characteristics
+      if (!ua.includes('safari') || ua.includes('webview')) return true
+    }
+  }
+
+  // Runtime check via Capacitor API
+  try {
+    if (isCapacitor()) return true
+  } catch {
+    // ignore
+  }
+
+  return false
+}
+
+/**
+ * Platform detection: returns 'electron', 'mobile', or 'browser'
+ * @returns {string} The current platform type
+ */
+export const getPlatform = (): string => {
+  if (isElectron()) return 'electron'
+  if (isMobileApp()) return 'mobile'
+  return 'browser'
+}
+
+/**
  * Copy text to clipboard
  * @param {string} text The text to copy
  * @returns {Promise<void>} A promise that resolves when the text is copied

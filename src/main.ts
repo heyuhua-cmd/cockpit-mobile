@@ -31,6 +31,7 @@ import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
 import router from './router'
 import { useOmniscientLoggerStore } from './stores/omniscientLogger'
+import { isMobileApp } from '@/libs/utils'
 
 // Run migrations that are needed for the app to work
 runMigrations()

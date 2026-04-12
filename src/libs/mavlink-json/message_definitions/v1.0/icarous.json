@@ -1,0 +1,167 @@
+{
+  "enums": [
+    {
+      "name": "ICAROUS_TRACK_BAND_TYPES",
+      "entries": [
+        {
+          "name": "ICAROUS_TRACK_BAND_TYPE_NONE",
+          "value": 0
+        },
+        {
+          "name": "ICAROUS_TRACK_BAND_TYPE_NEAR",
+          "value": 1
+        },
+        {
+          "name": "ICAROUS_TRACK_BAND_TYPE_RECOVERY",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "ICAROUS_FMS_STATE",
+      "entries": [
+        {
+          "name": "ICAROUS_FMS_STATE_IDLE",
+          "value": 0
+        },
+        {
+          "name": "ICAROUS_FMS_STATE_TAKEOFF",
+          "value": 1
+        },
+        {
+          "name": "ICAROUS_FMS_STATE_CLIMB",
+          "value": 2
+        },
+        {
+          "name": "ICAROUS_FMS_STATE_CRUISE",
+          "value": 3
+        },
+        {
+          "name": "ICAROUS_FMS_STATE_APPROACH",
+          "value": 4
+        },
+        {
+          "name": "ICAROUS_FMS_STATE_LAND",
+          "value": 5
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "name": "ICAROUS_HEARTBEAT",
+      "id": 42000,
+      "description": "ICAROUS heartbeat",
+      "fields": [
+        {
+          "name": "status",
+          "type": "uint8_t",
+          "enum": "ICAROUS_FMS_STATE",
+          "description": "See the FMS_STATE enum."
+        }
+      ]
+    },
+    {
+      "name": "ICAROUS_KINEMATIC_BANDS",
+      "id": 42001,
+      "description": "Kinematic multi bands (track) output from Daidalus",
+      "fields": [
+        {
+          "name": "numBands",
+          "type": "int8_t",
+          "description": "Number of track bands"
+        },
+        {
+          "name": "type1",
+          "type": "uint8_t",
+          "enum": "ICAROUS_TRACK_BAND_TYPES",
+          "description": "See the TRACK_BAND_TYPES enum."
+        },
+        {
+          "name": "min1",
+          "type": "float",
+          "units": "deg",
+          "description": "min angle (degrees)"
+        },
+        {
+          "name": "max1",
+          "type": "float",
+          "units": "deg",
+          "description": "max angle (degrees)"
+        },
+        {
+          "name": "type2",
+          "type": "uint8_t",
+          "enum": "ICAROUS_TRACK_BAND_TYPES",
+          "description": "See the TRACK_BAND_TYPES enum."
+        },
+        {
+          "name": "min2",
+          "type": "float",
+          "units": "deg",
+          "description": "min angle (degrees)"
+        },
+        {
+          "name": "max2",
+          "type": "float",
+          "units": "deg",
+          "description": "max angle (degrees)"
+        },
+        {
+          "name": "type3",
+          "type": "uint8_t",
+          "enum": "ICAROUS_TRACK_BAND_TYPES",
+          "description": "See the TRACK_BAND_TYPES enum."
+        },
+        {
+          "name": "min3",
+          "type": "float",
+          "units": "deg",
+          "description": "min angle (degrees)"
+        },
+        {
+          "name": "max3",
+          "type": "float",
+          "units": "deg",
+          "description": "max angle (degrees)"
+        },
+        {
+          "name": "type4",
+          "type": "uint8_t",
+          "enum": "ICAROUS_TRACK_BAND_TYPES",
+          "description": "See the TRACK_BAND_TYPES enum."
+        },
+        {
+          "name": "min4",
+          "type": "float",
+          "units": "deg",
+          "description": "min angle (degrees)"
+        },
+        {
+          "name": "max4",
+          "type": "float",
+          "units": "deg",
+          "description": "max angle (degrees)"
+        },
+        {
+          "name": "type5",
+          "type": "uint8_t",
+          "enum": "ICAROUS_TRACK_BAND_TYPES",
+          "description": "See the TRACK_BAND_TYPES enum."
+        },
+        {
+          "name": "min5",
+          "type": "float",
+          "units": "deg",
+          "description": "min angle (degrees)"
+        },
+        {
+          "name": "max5",
+          "type": "float",
+          "units": "deg",
+          "description": "max angle (degrees)"
+        }
+      ]
+    }
+  ]
+}

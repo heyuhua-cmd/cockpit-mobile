@@ -1,0 +1,124 @@
+{
+  "enums": [],
+  "messages": [
+    {
+      "name": "TEST_TYPES",
+      "id": 17000,
+      "description": "Test all field types",
+      "fields": [
+        {
+          "name": "c",
+          "type": "char",
+          "description": "char"
+        },
+        {
+          "name": "s",
+          "type": "char[10]",
+          "description": "string"
+        },
+        {
+          "name": "u8",
+          "type": "uint8_t",
+          "description": "uint8_t"
+        },
+        {
+          "name": "u16",
+          "type": "uint16_t",
+          "description": "uint16_t"
+        },
+        {
+          "name": "u32",
+          "type": "uint32_t",
+          "print_format": "0x%08x",
+          "description": "uint32_t"
+        },
+        {
+          "name": "u64",
+          "type": "uint64_t",
+          "description": "uint64_t"
+        },
+        {
+          "name": "s8",
+          "type": "int8_t",
+          "description": "int8_t"
+        },
+        {
+          "name": "s16",
+          "type": "int16_t",
+          "description": "int16_t"
+        },
+        {
+          "name": "s32",
+          "type": "int32_t",
+          "description": "int32_t"
+        },
+        {
+          "name": "s64",
+          "type": "int64_t",
+          "description": "int64_t"
+        },
+        {
+          "name": "f",
+          "type": "float",
+          "description": "float"
+        },
+        {
+          "name": "d",
+          "type": "double",
+          "description": "double"
+        },
+        {
+          "name": "u8_array",
+          "type": "uint8_t[3]",
+          "description": "uint8_t_array"
+        },
+        {
+          "name": "u16_array",
+          "type": "uint16_t[3]",
+          "description": "uint16_t_array"
+        },
+        {
+          "name": "u32_array",
+          "type": "uint32_t[3]",
+          "description": "uint32_t_array"
+        },
+        {
+          "name": "u64_array",
+          "type": "uint64_t[3]",
+          "description": "uint64_t_array"
+        },
+        {
+          "name": "s8_array",
+          "type": "int8_t[3]",
+          "description": "int8_t_array"
+        },
+        {
+          "name": "s16_array",
+          "type": "int16_t[3]",
+          "description": "int16_t_array"
+        },
+        {
+          "name": "s32_array",
+          "type": "int32_t[3]",
+          "description": "int32_t_array"
+        },
+        {
+          "name": "s64_array",
+          "type": "int64_t[3]",
+          "description": "int64_t_array"
+        },
+        {
+          "name": "f_array",
+          "type": "float[3]",
+          "description": "float_array"
+        },
+        {
+          "name": "d_array",
+          "type": "double[3]",
+          "description": "double_array"
+        }
+      ]
+    }
+  ],
+  "version": 3
+}

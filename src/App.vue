@@ -128,7 +128,7 @@
   <About v-if="showAboutDialog" @update:show-about-dialog="showAboutDialog = $event" />
   <Tutorial v-if="interfaceStore.isTutorialVisible" />
   <VideoLibraryModal v-if="interfaceStore.isVideoLibraryVisible" />
-  <VehicleDiscoveryDialog v-model="showDiscoveryDialog" show-auto-search-option />
+  <VehicleDiscoveryDialog v-if="!isMobileApp()" v-model="showDiscoveryDialog" show-auto-search-option />
   <ExternalFeaturesDiscoveryModal auto-check-on-mount />
   <UpdateNotification v-if="isElectron()" />
   <ArchitectureWarning v-if="isElectron()" />
@@ -164,7 +164,7 @@ import {
   registerActionCallback,
   unregisterActionCallback,
 } from '@/libs/joystick/protocols/cockpit-actions'
-import { isElectron, sleep } from '@/libs/utils'
+import { isElectron, isMobileApp, sleep } from '@/libs/utils'
 import { useMissionStore } from '@/stores/mission'
 
 import About from './components/About.vue'

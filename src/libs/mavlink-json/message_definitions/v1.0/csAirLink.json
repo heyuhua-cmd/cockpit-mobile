@@ -1,0 +1,52 @@
+{
+  "enums": [
+    {
+      "name": "AIRLINK_AUTH_RESPONSE_TYPE",
+      "entries": [
+        {
+          "name": "AIRLINK_ERROR_LOGIN_OR_PASS",
+          "value": 0,
+          "description": "Login or password error"
+        },
+        {
+          "name": "AIRLINK_AUTH_OK",
+          "value": 1,
+          "description": "Auth successful"
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "name": "AIRLINK_AUTH",
+      "id": 52000,
+      "description": "Authorization package",
+      "fields": [
+        {
+          "name": "login",
+          "type": "char[50]",
+          "description": "Login"
+        },
+        {
+          "name": "password",
+          "type": "char[50]",
+          "description": "Password"
+        }
+      ]
+    },
+    {
+      "name": "AIRLINK_AUTH_RESPONSE",
+      "id": 52001,
+      "description": "Response to the authorization request",
+      "fields": [
+        {
+          "name": "resp_type",
+          "type": "uint8_t",
+          "enum": "AIRLINK_AUTH_RESPONSE_TYPE",
+          "description": "Response type"
+        }
+      ]
+    }
+  ],
+  "version": 3
+}
