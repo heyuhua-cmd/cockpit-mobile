@@ -12,31 +12,27 @@ workflows:
       # 1. 安装依赖（使用 Yarn）
       - name: Install dependencies
         script: |
-          yarn install --frozen-lockfile || yarn install
+          yarn install
 
       # 2. 构建前端 Web 资源
       - name: Build web assets
         script: |
           yarn build
 
-      # 3. 安装 Capacitor iOS 原生依赖
-      - name: Install iOS native deps
-        script: |
-          cd ios/App
-          pod install
-          cd ../..
-
-      # 4. 同步 Web 资源到 iOS
-      - name: Sync to iOS
+      # 3. 同步到 iOS（Capacitor 会自动处理原生依赖）
+      - name: Sync to iOS and install native deps
         script: |
           npx cap sync ios
+          cd ios/App
+          pod install --repo-update || pod install
+          cd ../..
 
-      # 5. 构建 iOS (Debug IPA - 用于 AltStore 安装)
+      # 4. 构建 iOS (Debug IPA - 用于 AltStore 安装)
       - name: Build iOS Debug IPA
         script: |
           cd ios/App
 
-          # 使用 debug 配置构建
+          # 使用 debug 配置构建（不签名，后续用 AltStore 签名）
           xcodebuild \
             -workspace App.xcworkspace \
             -scheme App \
@@ -45,22 +41,21 @@ workflows:
             -derivedDataPath build \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_ALLOWED=NO \
-            clean build | xcpretty || true
+            clean build 2>&1 | tee build.log | xcpretty || { echo "Build log:"; cat build.log; exit 1; }
 
-          # 导出 IPA（未签名，需要后续用 AltStore 签名）
-          mkdir -p build/ipa
-          -cp -rP \
-            build/Build/Products/Debug-iphoneos/App.app \
-            build/Payload
-          cd build && zip -r Payload.zip Payload && mv Payload.zip ../Cockpit-iOS-debug.ipa
-          cd ..
+          # 打包 IPA
+          mkdir -p Payload
+          cp -r "build/Build/Products/Debug-iphoneos/App.app" Payload/
+          zip -ry Cockpit-iOS-debug.ipa Payload/
+          ls -la Cockpit-iOS-debug.ipa
 
-      # 6. 归档产物
-      - name: Archive artifacts
+      # 5. 复制到根目录方便下载
+      - name: Copy artifact
         script: |
-          echo "iOS IPA 已生成: Cockpit-iOS-debug.ipa"
-          ls -la *.ipa 2>/dev/null || echo "IPA 在 ios/App/build 目录"
+          cp ios/App/Cockpit-iOS-debug.ipk . 2>/dev/null || true
+          cp ios/App/Cockpit-iOS-debug.ipa . 2>/dev/null || true
+          echo "=== BUILD COMPLETE ==="
+          find . -name "*.ipa" 2>/dev/null | head -5
 
     artifacts:
-      - Cockpit-iOS-*.ipa
-      - ios/App/build/**/*.ipa
+      - "**/*.ipa"
