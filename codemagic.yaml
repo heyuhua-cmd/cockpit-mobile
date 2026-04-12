@@ -9,10 +9,11 @@ workflows:
       cocoapods: default
       node: 18
     scripts:
-      # 1. 安装依赖（使用 Yarn）
+      # 1. 安装依赖（使用 Yarn，跳过 postinstall 中的二进制下载）
       - name: Install dependencies
         script: |
-          yarn install
+          # 跳过 postinstall（FFmpeg/go2rtc/SDL 下载），手机 App 不需要
+          yarn install --ignore-scripts || yarn install
 
       # 2. 构建前端 Web 资源
       - name: Build web assets
