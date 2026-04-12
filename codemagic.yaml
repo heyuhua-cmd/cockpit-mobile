@@ -9,16 +9,18 @@ workflows:
       cocoapods: default
       node: 18
     scripts:
-      # 1. 安装依赖（使用 Yarn，跳过 postinstall 中的二进制下载）
+      # 1. 安装依赖（跳过 postinstall，手机 App 不需要 FFmpeg/go2rtc/SDL）
       - name: Install dependencies
         script: |
-          # 跳过 postinstall（FFmpeg/go2rtc/SDL 下载），手机 App 不需要
-          yarn install --ignore-scripts || yarn install
+          # 创建空目录避免 postinstall 报错
+          mkdir -p binaries/ffmpeg binaries/go2rtc
+          # 使用 npm 安装（更稳定）
+          npm ci --ignore-scripts || npm install --ignore-scripts
 
       # 2. 构建前端 Web 资源
       - name: Build web assets
         script: |
-          yarn build
+          npm run build
 
       # 3. 同步到 iOS（Capacitor 会自动处理原生依赖）
       - name: Sync to iOS and install native deps
@@ -53,7 +55,6 @@ workflows:
       # 5. 复制到根目录方便下载
       - name: Copy artifact
         script: |
-          cp ios/App/Cockpit-iOS-debug.ipk . 2>/dev/null || true
           cp ios/App/Cockpit-iOS-debug.ipa . 2>/dev/null || true
           echo "=== BUILD COMPLETE ==="
           find . -name "*.ipa" 2>/dev/null | head -5
