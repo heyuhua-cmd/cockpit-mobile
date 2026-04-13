@@ -25,15 +25,29 @@ workflows:
       # 3. 初始化 iOS 平台并同步（Capacitor v8 需要 cap add ios 来生成完整原生项目）
       - name: Sync to iOS and install native deps
         script: |
-          # 确保已添加 iOS 平台（CI 环境中需要初始化）
-          npx cap add ios || true
+          set -e
+
+          echo "=== Step 1: Remove existing iOS directory (if any) ==="
+          rm -rf ios
+
+          echo "=== Step 2: Add iOS platform ==="
+          npx cap add ios
+          echo "=== Step 3: Check if iOS platform was created ==="
+          ls -la ios/ || { echo "ERROR: ios/ directory not created by cap add ios"; exit 1; }
+          ls -la ios/App/ || { echo "ERROR: ios/App/ directory not found"; exit 1; }
+
+          echo "=== Step 4: Sync web assets to iOS ==="
           npx cap sync ios
+          echo "=== Step 5: Final check ==="
+          ls -la ios/App/
+          [ -f ios/App/Podfile ] && echo "Podfile found" || echo "WARNING: No Podfile"
+
           cd ios/App
-          # 确保 Podfile 存在后再安装 pods
           if [ -f Podfile ]; then
+            echo "=== Running pod install ==="
             pod install --repo-update || pod install
           else
-            echo "WARNING: Podfile not found, skipping pod install"
+            echo "WARNING: Podfile not found, listing directory contents:"
             ls -la
           fi
           cd ../..
