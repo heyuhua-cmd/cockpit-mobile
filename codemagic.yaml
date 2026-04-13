@@ -7,7 +7,7 @@ workflows:
     environment:
       xcode: latest
       cocoapods: default
-      node: 18
+      node: 21
     scripts:
       # 1. 安装依赖（跳过 postinstall，手机 App 不需要 FFmpeg/go2rtc/SDL）
       - name: Install dependencies
