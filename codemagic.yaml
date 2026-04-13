@@ -15,7 +15,7 @@ workflows:
           # 创建空目录避免 postinstall 报错
           mkdir -p binaries/ffmpeg binaries/go2rtc
           # 使用 npm 安装（项目没有 package-lock.json，不能用 npm ci）
-          npm install --ignore-scripts
+          npm install --ignore-scripts --legacy-peer-deps
 
       # 2. 构建前端 Web 资源
       - name: Build web assets
