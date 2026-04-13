@@ -12,6 +12,20 @@ workflows:
       # 1. 安装依赖（跳过 postinstall，手机 App 不需要 FFmpeg/go2rtc/SDL）
       - name: Install dependencies
         script: |
+          # Codemagic 环境可能使用旧版 Node.js，Capacitor v8 需要 >=21
+          # 检查并安装正确的 Node 版本
+          echo "=== Current Node version ==="
+          node --version
+          if [ "$(node --version | cut -d'.' -f1 | tr -d 'v')" -lt 21 ]; then
+            echo "Node version too old, installing Node 21 via nvm..."
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            nvm install 21
+            nvm use 21
+            echo "=== After nvm: Node version ==="
+            node --version
+          fi
+
           # 创建空目录避免 postinstall 报错
           mkdir -p binaries/ffmpeg binaries/go2rtc
           # 使用 npm 安装（项目没有 package-lock.json，不能用 npm ci）
