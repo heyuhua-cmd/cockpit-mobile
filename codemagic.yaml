@@ -22,12 +22,20 @@ workflows:
         script: |
           npm run build
 
-      # 3. 同步到 iOS（Capacitor 会自动处理原生依赖）
+      # 3. 初始化 iOS 平台并同步（Capacitor v8 需要 cap add ios 来生成完整原生项目）
       - name: Sync to iOS and install native deps
         script: |
+          # 确保已添加 iOS 平台（CI 环境中需要初始化）
+          npx cap add ios || true
           npx cap sync ios
           cd ios/App
-          pod install --repo-update || pod install
+          # 确保 Podfile 存在后再安装 pods
+          if [ -f Podfile ]; then
+            pod install --repo-update || pod install
+          else
+            echo "WARNING: Podfile not found, skipping pod install"
+            ls -la
+          fi
           cd ../..
 
       # 4. 构建 iOS (Debug IPA - 用于 AltStore 安装)
